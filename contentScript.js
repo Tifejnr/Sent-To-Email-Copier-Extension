@@ -5,17 +5,32 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.ready) {
     newTabLoaded();
   }
+  if (message.hideCopyBtn) {
+    const copyBtnClass = "copy-btn";
+    const copyBtnExists = document.getElementsByClassName(copyBtnClass)[0];
+
+    if (copyBtnExists) {
+      copyBtnExists.style.display = "none";
+    }
+  }
 });
 
 async function newTabLoaded() {
-  const menuOptionsClass = "G-Ni";
-  const copyBtnExists = document.getElementsByClassName(menuOptionsClass)[5];
+  const copyBtnClass = "copy-btn";
+  const copyBtnExists = document.getElementsByClassName(copyBtnClass)[0];
+
+  if (copyBtnExists) {
+    copyBtnExists.style.display = "block";
+  }
 
   if (!copyBtnExists) {
     const copyBtn = document.createElement("img");
     copyBtn.src = chrome.runtime.getURL("assets/copy-32.png");
-    copyBtn.classList.add("G-Ni", "J-J5-Ji");
+    copyBtn.classList.add("copy-btn", "J-J5-Ji");
+    copyBtn.style.display = "block";
     copyBtn.title = "Click to copy receiver email address";
+    copyBtn.style.marginRight = "1rem";
+    copyBtn.style.backgroundColor = "transparent";
     copyBtn.addEventListener("mouseover", function () {
       this.style.cursor = "pointer";
     });
@@ -24,19 +39,19 @@ async function newTabLoaded() {
         event.target.style.backgroundColor = "rgba(0, 0, 255, 0.1)";
       },
       out: function (event) {
-        event.target.style.backgroundColor = "white";
+        event.target.style.backgroundColor = "transparent";
       },
     };
     copyBtn.addEventListener("mouseover", $Osc.hover, false);
     copyBtn.addEventListener("mouseout", $Osc.out, false);
     copyBtn.addEventListener("click", getReceiverEmail);
 
-    const menusContainerClass = "G-tF";
+    const menusContainerClass = "gb_8d gb_6d";
     const gmailMoreIcon =
       document.getElementsByClassName(menusContainerClass)[0];
 
     if (gmailMoreIcon) {
-      gmailMoreIcon.appendChild(copyBtn);
+      gmailMoreIcon.before(copyBtn);
     }
   }
 }
@@ -50,8 +65,8 @@ function getReceiverEmail() {
   async function copyToClipboard(value) {
     try {
       await navigator.clipboard.writeText(value);
-      const copyBtn = document.getElementsByClassName("G-Ni")[5];
-      copyBtn.style.backgroundColor = "rgba(255, 0, 0, 0.35)";
+      const copyBtn = document.getElementsByClassName("copy-btn")[0];
+      copyBtn.style.backgroundColor = "rgba(255, 0, 0, 0.65)";
 
       setTimeout(() => {
         copyBtn.style.backgroundColor = "";
