@@ -46,12 +46,9 @@ async function newTabLoaded() {
     copyBtn.addEventListener("mouseout", $Osc.out, false);
     copyBtn.addEventListener("click", getReceiverEmail);
 
-    const menusContainerClass = "gb_8d gb_6d";
-    const gmailMoreIcon =
-      document.getElementsByClassName(menusContainerClass)[0];
-
-    if (gmailMoreIcon) {
-      gmailMoreIcon.before(copyBtn);
+    const supportMenu = getSupportMenuContainer();
+    if (supportMenu) {
+      supportMenu.before(copyBtn);
     }
   }
 }
@@ -73,6 +70,21 @@ function getReceiverEmail() {
       }, 3000);
     } catch (err) {
       console.error("Failed to copy text: ", err);
+    }
+  }
+}
+
+function getSupportMenuContainer() {
+  const divElement = document.getElementsByTagName("header")[0];
+
+  const secondChildFirstFilial = divElement.children[1];
+  if (secondChildFirstFilial) {
+    const secondChildSecondFilial = secondChildFirstFilial.children[1];
+
+    if (secondChildSecondFilial) {
+      const secondChildThirdFilial = secondChildSecondFilial.children[2];
+
+      return secondChildThirdFilial;
     }
   }
 }

@@ -1,8 +1,8 @@
 {
   "name": "'Sent to' Email Copier",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "Copies email adress of who the email was sent to",
-  "permissions": ["storage", "tabs"],
+  "permissions": ["tabs"],
   "host_permissions": ["https://mail.google.com/mail/u/*"],
   "background": {
     "service_worker": "background.js"
@@ -22,8 +22,6 @@
       "matches": ["https://*.mail.google.com/*"]
     }
   ],
-
-
 
    "action": {
     "default_icon": {
